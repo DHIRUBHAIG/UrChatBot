@@ -2,11 +2,14 @@ import React, { useState, useRef, useEffect } from "react";
 import { API_KEY } from "../../assets/Constant.js";
 import ReactMarkdown from "react-markdown";
 
-const Chat = () => {
+
+
+const Chat = ({ recentHistry, setRecentHistry }) => {
+
   const [question, setQuestion] = useState("");
   const [chats, setChats] = useState([]);
 
-  const[recentHistry,setRecentHistry]=useState([]);
+  
 
   const chatEndRef = useRef(null);
 
@@ -19,26 +22,29 @@ const Chat = () => {
   async function askQuestion() {
     if (!question.trim()) return;
 
-    // Create updated history array
-  const updatedHistory = [...recentHistry, question];
+  
 
-  // Update state
-  setRecentHistry(updatedHistory);
+// prevent from dublicates
+const updatedHistory = [
+  question,
+  ...recentHistry.filter((item) => item !== question)
+];
 
-  // Save to localStorage
-  localStorage.setItem(
-    "Histry",
-    JSON.stringify(updatedHistory)
-  );
+setRecentHistry(updatedHistory);
+
+localStorage.setItem(
+  "Histry",
+  JSON.stringify(updatedHistory)
+);
 
     const currentQuestion = question;
     setQuestion("");
 
     try {
       const response = await fetch(
-        // "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent",
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent",
 
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+        // "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
 
         // "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
 
