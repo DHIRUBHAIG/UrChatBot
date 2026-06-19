@@ -44,3 +44,7 @@ This automatically converts:
 - Good morning, [Name].
 
 into properly formatted headings and bullet points.
+
+
+// ADD a differnt icon and stylish
+ lucide react icons
